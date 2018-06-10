@@ -16,6 +16,7 @@
 
 ## `setting.json`
 * `download`: 下载文件目录名称（目前没搞recursive）
+* `fileDb`: 文件资料库名称
 * `prefix`: 命令前缀
 * `rndCount`: 一次抓取的reddit submission数量，用于随机选取submission（hot及new模式）。
 * `subs`: Reddit命令

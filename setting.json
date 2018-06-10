@@ -29,5 +29,6 @@
     },
     "rndCount": 20,
     "download": "downloads",
-    "prefix": "^"
+    "prefix": "^",
+    "fileDb": "file.db"
 }
