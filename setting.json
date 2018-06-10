@@ -1,7 +1,7 @@
 {
     "subs": {
         "shower": {
-            "full": "Showerthoughts",
+            "name": "Showerthoughts",
             "aliases": [
                 "sw"
             ],
@@ -9,7 +9,7 @@
             "default": "rnd"
         },
         "oneliners": {
-            "full": "oneliners",
+            "name": "oneliners",
             "aliases": [
                 "1liners",
                 "oneliner",
@@ -19,7 +19,7 @@
             "default": "rnd"
         },
         "tightpussy": {
-            "full": "TIGHTPUSSY",
+            "name": "TIGHTPUSSY",
             "aliases": [
                 "pussy"
             ],
@@ -27,5 +27,7 @@
             "default": "rnd"
         }
     },
-    "rndCount": 20
+    "rndCount": 20,
+    "download": "downloads",
+    "prefix": "^"
 }

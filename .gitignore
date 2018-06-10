@@ -69,3 +69,6 @@ typings/
 #config
 config.json
 test.js
+
+#data
+downloads

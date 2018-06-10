@@ -23,7 +23,7 @@ class RedditCommand extends Command {
             ]
         });
         this.name = name;
-        this.sub = new Sub(subs[name].full);
+        this.sub = new Sub(subs[name].name);
     }
 
     async run(msg, { type }) {
@@ -31,7 +31,7 @@ class RedditCommand extends Command {
             const submission = await this.sub.getSubmmision(type);
             const embed = new RichEmbed()
                 .setColor(163228)
-                .setTitle(`/r/${subs[this.name].full}`)
+                .setTitle(`/r/${subs[this.name].name}`)
                 .setURL(`https://www.reddit.com${submission.permalink}`)
                 .setDescription(submission.title)
             if (submission.url.endsWith('.jpg') || submission.url.endsWith('.png')) {

@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { close } = require('../../file');
 
 module.exports = class Shutdown extends Command {
     constructor(client) {
@@ -14,6 +15,7 @@ module.exports = class Shutdown extends Command {
 
     run(msg) {
         msg.say('OOPS i drop my soap.');
+        close();
         return this.client.destroy();
     }
 };

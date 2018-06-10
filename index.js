@@ -1,13 +1,13 @@
 const { CommandoClient, Command } = require('discord.js-commando');
-const { token } = require('./config.json');
-const { clientId, clientSecret, refreshToken } = require('./config.json')
+const { token, clientId, clientSecret, refreshToken, owners } = require('./config.json')
+const { prefix } = require('./setting.json');
 const path = require('path');
 const snoowrap = require('snoowrap');
 const reddit = require('./commands/reddit');
 
 const client = new CommandoClient({
-    commandPrefix: '^',
-    owner: ['254077247940460544','212472910516977666'],
+    commandPrefix: prefix,
+    owner: owners,
     disableEveryone: true
 });
 
@@ -15,7 +15,8 @@ client.registry
     .registerDefaultTypes()
     .registerGroups([
         ['bot', 'Bot commands'],
-        ['reddit', 'Reddits']
+        ['reddit', 'Reddits'],
+        ['file', 'File download']
     ])
     .registerCommands(reddit())
     .registerDefaultGroups()
