@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { list } = require('../../file');
 
-module.exports = class Delete extends Command {
+module.exports = class List extends Command {
     constructor(client) {
         super(client, {
             name: 'list',
@@ -15,7 +15,7 @@ module.exports = class Delete extends Command {
     async run(msg) {
         try {
             const result = await list();
-            msg.say(result.join('\n'));
+            msg.say(`List of files:\n${result.join('\n')}`);
         } catch (e) {
             msg.say(`Error: ${e}`);
         }
