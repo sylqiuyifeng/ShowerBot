@@ -16,6 +16,7 @@ module.exports = class Shutdown extends Command {
     run(msg) {
         msg.say('OOPS i drop my soap.');
         close();
-        return this.client.destroy();
+        this.client.destroy();
+        process.exit();
     }
 };
