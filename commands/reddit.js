@@ -1,4 +1,4 @@
-const {subs} = require('../config.json');
+const {subs} = require('../setting.json');
 const Sub = require('../scripts/sub');
 const { Command } = require('discord.js-commando');
 const { RichEmbed } = require('discord.js');

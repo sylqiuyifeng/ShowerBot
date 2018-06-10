@@ -1,5 +1,5 @@
 const {r} = require('./snoowrap');
-const {rndCount} = require('../config.json');
+const {rndCount} = require('../setting.json');
 
 module.exports = class Sub {
     constructor(name) {

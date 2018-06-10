@@ -1,13 +1,13 @@
 const { CommandoClient, Command } = require('discord.js-commando');
 const { token } = require('./config.json');
-const {clientId,clientSecret,refreshToken} = require('./config.json')
+const { clientId, clientSecret, refreshToken } = require('./config.json')
 const path = require('path');
 const snoowrap = require('snoowrap');
 const reddit = require('./commands/reddit');
 
 const client = new CommandoClient({
     commandPrefix: '^',
-    owner: '254077247940460544',
+    owner: ['254077247940460544','212472910516977666'],
     disableEveryone: true
 });
 
@@ -20,7 +20,7 @@ client.registry
     .registerCommands(reddit())
     .registerDefaultGroups()
     .registerDefaultCommands()
-    .registerCommandsIn(path.join(__dirname, 'commands', 'bot'));
+    .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('ready', () => {
     console.log('Logged in!');

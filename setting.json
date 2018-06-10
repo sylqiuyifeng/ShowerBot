@@ -1,0 +1,31 @@
+{
+    "subs": {
+        "shower": {
+            "full": "Showerthoughts",
+            "aliases": [
+                "sw"
+            ],
+            "description": "Get a random shower thought",
+            "default": "rnd"
+        },
+        "oneliners": {
+            "full": "oneliners",
+            "aliases": [
+                "1liners",
+                "oneliner",
+                "1liner"
+            ],
+            "description": "Get a random 1 liner",
+            "default": "rnd"
+        },
+        "tightpussy": {
+            "full": "TIGHTPUSSY",
+            "aliases": [
+                "pussy"
+            ],
+            "description": "Get a random PUSSY",
+            "default": "rnd"
+        }
+    },
+    "rndCount": 20
+}
