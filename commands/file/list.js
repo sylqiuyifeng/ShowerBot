@@ -7,6 +7,7 @@ module.exports = class List extends Command {
         super(client, {
             name: 'list',
             group: 'file',
+            aliases: ['ls'],
             memberName: 'list',
             description: 'list files, output id=>name',
             examples: ['list']
@@ -18,7 +19,7 @@ module.exports = class List extends Command {
             const result = await list();
             const embed = new RichEmbed({
                 title: 'List of files',
-                fields: result|['No file']
+                description: result.join('\n')||'No file'
             });
             msg.embed(embed);
         } catch (e) {

@@ -1,9 +1,8 @@
-const { CommandoClient, Command , SQLiteProvider } = require('discord.js-commando');
-const { token, clientId, clientSecret, refreshToken, owners } = require('./config.json')
+const { CommandoClient , SQLiteProvider } = require('discord.js-commando');
+const { token, owners } = require('./config.json')
 const { prefix } = require('./setting.json');
 const sqlite = require('sqlite');
 const path = require('path');
-const snoowrap = require('snoowrap');
 const reddit = require('./commands/reddit');
 
 const client = new CommandoClient({
