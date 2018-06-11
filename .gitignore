@@ -75,3 +75,4 @@ test.js
 #data
 downloads
 file.db
+settings.sqlite3

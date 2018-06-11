@@ -1,6 +1,7 @@
-const { CommandoClient, Command } = require('discord.js-commando');
+const { CommandoClient, Command , SQLiteProvider } = require('discord.js-commando');
 const { token, clientId, clientSecret, refreshToken, owners } = require('./config.json')
 const { prefix } = require('./setting.json');
+const sqlite = require('sqlite');
 const path = require('path');
 const snoowrap = require('snoowrap');
 const reddit = require('./commands/reddit');
@@ -10,6 +11,10 @@ const client = new CommandoClient({
     owner: owners,
     disableEveryone: true
 });
+
+client.setProvider(
+    sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new SQLiteProvider(db))
+).catch(console.error);
 
 client.registry
     .registerDefaultTypes()
