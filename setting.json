@@ -6,7 +6,7 @@
                 "sw"
             ],
             "description": "Get a random shower thought",
-            "default": "rnd"
+            "default": "hot"
         },
         "oneliners": {
             "name": "oneliners",

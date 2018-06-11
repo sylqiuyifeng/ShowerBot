@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { list } = require('../../file');
+const { RichEmbed } = require('discord.js');
 
 module.exports = class List extends Command {
     constructor(client) {
@@ -15,7 +16,11 @@ module.exports = class List extends Command {
     async run(msg) {
         try {
             const result = await list();
-            msg.say(`List of files:\n${result.join('\n')}`);
+            const embed = new RichEmbed({
+                title: 'List of files',
+                fields: result|['No file']
+            });
+            msg.embed(embed);
         } catch (e) {
             msg.say(`Error: ${e}`);
         }

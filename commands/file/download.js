@@ -14,6 +14,7 @@ module.exports = class Download extends Command {
     }
 
     async run(msg) {
+        msg.say('Request received!');
         try {
             const id = await download(msg.argString.trim());
             msg.say(`Download success!`);

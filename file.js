@@ -4,7 +4,7 @@ const https = require('https');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 const settings = require('./setting.json');
-const {port} = require('./config.json');
+const {port, domain} = require('./config.json');
 
 const db = new sqlite3.Database(path.join(__dirname, settings.fileDb));
 const pattern = /filename="(.+)"/;
@@ -110,7 +110,7 @@ function list() {
                 if (largest < id.length) {
                     largest = id.length;
                 }
-                return `${' '.repeat(largest - id.length)}${id} => ${pattern.exec(v.disposition)[1]}`;
+                return `${' '.repeat(largest - id.length)}${id} => [${pattern.exec(v.disposition)[1]}](http://${domain}:${port}/${id})`;
             }))
         })
     })
