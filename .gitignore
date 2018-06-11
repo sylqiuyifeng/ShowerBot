@@ -68,6 +68,8 @@ typings/
 
 #config
 config.json
+
+#testing script
 test.js
 
 #data
