@@ -20,7 +20,8 @@ client.registry
     .registerGroups([
         ['bot', 'Bot commands'],
         ['reddit', 'Reddits'],
-        ['file', 'File download']
+        ['file', 'File download'],
+        ['utility','Utility functions']
     ])
     .registerCommands(reddit())
     .registerDefaultGroups()
