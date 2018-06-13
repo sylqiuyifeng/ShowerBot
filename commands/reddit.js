@@ -34,8 +34,9 @@ class RedditCommand extends Command {
                 .setTitle(`/r/${subs[this.name].name}`)
                 .setURL(`https://www.reddit.com${submission.permalink}`)
                 .setDescription(submission.title)
-            if (submission.url.endsWith('.jpg') || submission.url.endsWith('.png')) {
-                embed.setImage(submission.url);
+            if (submission.preview && submission.preview.images) {
+                const url = submission.preview.images[0].source.url;
+                embed.setImage(url);
             }
             return msg.embed(embed);
         } catch (e) {
