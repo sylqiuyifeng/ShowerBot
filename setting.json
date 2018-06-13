@@ -5,7 +5,7 @@
             "aliases": [
                 "sw"
             ],
-            "description": "Get a random shower thought",
+            "description": "Get a random hot shower thought",
             "default": "hot"
         },
         "oneliners": {
@@ -25,6 +25,14 @@
             ],
             "description": "Get a random PUSSY",
             "default": "rnd"
+        },
+        "softwaregore": {
+            "name": "softwaregore",
+            "aliases": [
+                "sg"
+            ],
+            "description": "Get a random software feature",
+            "default": "hot"
         }
     },
     "rndCount": 20,

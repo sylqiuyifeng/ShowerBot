@@ -9,15 +9,24 @@ module.exports = class Shutdown extends Command {
             memberName: 'shutdown',
             description: 'Shutdown the bot',
             examples: ['shutdown'],
-            ownerOnly: true
+            ownerOnly: true,
+            args: [
+                {
+                    key: 'exit',
+                    prompt: `Exit code (default 0)`,
+                    type: 'integer',
+                    default: 0
+                }
+            ]
         });
     }
 
-    run(msg) {
+    run(msg, {exit}) {
+        console.log('Shutting down the bot');
         msg.say('OOPS i drop my soap.').then(()=>{
             close();
             this.client.destroy().then(()=>{
-                process.exit();
+                process.exit(exit);
             });
         });
     }
