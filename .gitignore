@@ -74,6 +74,7 @@ test.js
 
 #data
 downloads
+music
 file.db
 settings.sqlite3
 hangman.sqlite3

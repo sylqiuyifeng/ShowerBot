@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/icon.ico">
+
+        <title>ShowerBot-Playlist</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+        <link href="https://cdn.bootcss.com/tether/1.4.4/css/tether-theme-arrows-dark.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="/css/cover.css" rel="stylesheet">
+        <style>
+        .custom-control {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        </style>
+    </head>
+
+    <body class="text-center">
+
+        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                    <h3 class="masthead-brand">ShowerBot</h3>
+                    <nav class="nav nav-masthead justify-content-center">
+                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link active" href="/player/">Music</a>
+                        <a class="nav-link" href="/player/playlist.html">Playlist</a>
+                    </nav>
+                </div>
+            </header>
+
+            <main role="main" class="inner cover">
+                <h1 class="cover-heading">Playlist</h1>
+                <div class="container text-left">
+                    <div id="playlists"></div>
+                    <button type="button" class="btn btn-primary" id="addPlaylist" onclick="addPlaylist()">Add playlist</button>
+                </div>
+                <div class="container text-left">
+                    <div id="songs"></div>
+                    <button type="button" class="btn btn-primary disabled" id="update" onclick="setPlaylist()">update playlist</button>
+                </div>
+            </main>
+
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                    <p>ShowerBot is watching you.</p>
+                </div>
+            </footer>
+        </div>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://cdn.bootcss.com/tether/1.4.4/js/tether.min.js"></script>
+        <script src="/js/bootstrap-material-design.min.js"></script>
+        <script>
+        var playlists = [];
+        var songs = [];
+        var current = undefined;
+        function makeCheckbox(multiple, type, id, value) {
+            var t = multiple?'checkbox':'radio';
+            var id = type + '_' + id;
+            return '<div class="custom-control custom-' + t + '"><input type="' + t + 
+                '" value="" class="custom-control-input" id="' + id + '"><label class="custom-control-label" for="' + id + '">' + value + '</label></div>';
+        }
+        function addPlaylist() {
+            var name = prompt('Name of the playlist');
+            $.post('./playlist/add/' + encodeURIComponent(name), function (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    alert('Success!');
+                    updatePlaylist();
+                } else {
+                    alert('Server error!');
+                    console.log('Error adding playlist');
+                    console.log(data.error);
+                }
+            })
+        }
+
+        function updatePlaylist() {
+            $.getJSON('./playlist', function (data) {
+                if (data.success) {
+                    playlists = data.value;
+                    var list = $('#playlists');
+                    list.empty();
+                    for (var i = 0; i < playlists.length; i++) {
+                        var element = $(makeCheckbox(false, 'playlist', playlists[i].id, playlists[i].name));
+                        var id = playlists[i].id;
+                        element.on('change', function (){
+                            current = id;
+                            getPlaylist(id);
+                        });
+                        list.append(element);
+                    }
+                } else {
+                    alert('Server error!');
+                    console.log('Error loading playlists');
+                    console.log(data.error);
+                }
+            })
+        }
+
+        function updateSongs() {
+            $.getJSON('./songs', function (data) {
+                if (data.success) {
+                    songs = data.value;
+                    var list = $('#songs');
+                    list.empty();
+                    for (var i = 0; i < songs.length; i++) {
+                        list.append(makeCheckbox(true, 'song', i, songs[i]));
+                    }
+                } else {
+                    alert('Server error!');
+                    console.log('Error loading songs');
+                    console.log(data.error);
+                }
+            })
+        }
+
+        function getPlaylist(id) {
+            $('#update').removeClass('disabled');
+            $.getJSON('./playlist/' + id, function (data) {
+                if (data.success) {
+                    for (var i = 0; i < songs.length; i++) {
+                        $('#song_' + i).prop('checked', data.value.indexOf(songs[i]) > -1);
+                    }
+                } else {
+                    alert('Server error!');
+                    console.log('Error loading playlists');
+                    console.log(data.error);
+                }
+            })
+        }
+
+        function setPlaylist(id) {
+            var playlistSongs = [];
+            for (var i = 0; i < songs.length; i++) {
+                if ($('#song_' + i).prop('checked')) {
+                    playlistSongs.push(songs[i]);
+                }
+            }
+            $.post({
+                url: './playlist/set',
+                data: JSON.stringify({
+                    id: current,
+                    names: playlistSongs
+                }),
+                dataType: 'json',
+                contentType: "application/json"
+            }, function (data) {
+                if (typeof data === 'string')
+                    data = JSON.parse(data);
+                if (data.success) {
+                    alert('Successfully updated!');
+                } else {
+                    alert('Update error!');
+                    console.log(data.error);
+                }
+            })
+        }
+
+        $(function() {
+            updatePlaylist();
+            updateSongs();
+        })
+        </script>
+    </body>
+</html>

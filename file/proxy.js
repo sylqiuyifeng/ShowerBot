@@ -1,12 +1,7 @@
 const fs = require('fs');
-const http = require('http');
-const https = require('https');
 const path = require('path');
-const sqlite3 = require('sqlite3');
-const settings = require('./setting.json');
-const {port, domain} = require('./config.json');
-
-const db = new sqlite3.Database(path.join(__dirname, settings.fileDb));
+const settings = require('../setting.json');
+const {db} = require('./db');
 const pattern = /filename="(.+)"/;
 
 db.run('CREATE TABLE IF NOT EXISTS file (id INTEGER PRIMARY KEY AUTOINCREMENT, type STRING, disposition STRING);');
@@ -15,42 +10,34 @@ if (!fs.existsSync(settings.download)) {
     fs.mkdirSync(settings.download);
 }
 
-function getPath(id) {
-    return path.join(__dirname, settings.download, id)
-}
-
-const server = http.createServer((request, response)=> {
-    const id = (request.url||'/').substring(1);
+module.exports.get = function (id, res) {
     if (!/^\d+$/.exec(id)) {
-        response.writeHead(404, {'Content-Type': 'text/plain'});
-        response.end('Illegal request');
+        res.send('Illegal request');
         return;
     }
     db.prepare('SELECT * FROM file WHERE id = ?').get(Number.parseInt(id), function (err, row){
         if (err || !row) {
-            response.writeHead(404, {'Content-Type': 'text/plain'});
-            response.end('File not found');
+            res.send('File not found');
             return;
         }
         const p = getPath(id);
         fs.stat(p, (err, stats)=> {
             if (err) {
-                response.writeHead(500, {'Content-Type': 'text/plain'});
-                response.end(err);
+                res.send(err.toString());
             }
             const header = {
                 'Content-Disposition': row.disposition,
                 'Content-Type': row.type,
                 'Content-Length': stats.size
             };
-            response.writeHead(200, header);
+            res.writeHead(200, header);
             const stream = fs.createReadStream(p);
             stream.pipe(response);
         })
     }).finalize();
-}).listen(port);
+}
 
-function download(url) {
+module.exports.download = function (url) {
     return new Promise((resolve, reject)=>{
         const protocol = url.startsWith('https')?https:http;
         const request = protocol.get(url, function(response) {
@@ -81,7 +68,7 @@ function download(url) {
     })
 }
 
-function remove(id) {
+module.exports.remove = function (id) {
     return new Promise((resolve, reject)=>{
         if (!/^\d+$/.exec(id)) {
             return reject('Invalid id');
@@ -97,7 +84,7 @@ function remove(id) {
     })
 }
 
-function list() {
+module.exports.list = function () {
     return new Promise((resolve, reject)=> {
         db.all('SELECT id, disposition FROM file', (err, rows)=> {
             if (err) {
@@ -110,20 +97,8 @@ function list() {
                 if (largest < id.length) {
                     largest = id.length;
                 }
-                return `${' '.repeat(largest - id.length)}${id} => [${pattern.exec(v.disposition)[1]}](http://${domain}:${port}/${id})`;
+                return [id, pattern.exec(v.disposition)[1]];
             }))
         })
     })
 }
-
-function close() {
-    if (server) {
-        server.close();
-    }
-    db.close();
-}
-
-module.exports.download = download;
-module.exports.remove = remove;
-module.exports.close = close;
-module.exports.list = list;

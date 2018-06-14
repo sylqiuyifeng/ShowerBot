@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { close } = require('../../file');
+const { close } = require('../../file/db');
 
 module.exports = class Shutdown extends Command {
     constructor(client) {
@@ -21,13 +21,11 @@ module.exports = class Shutdown extends Command {
         });
     }
 
-    run(msg, {exit}) {
+    async run(msg, {exit}) {
         console.log('Shutting down the bot');
-        msg.say('OOPS i drop my soap.').then(()=>{
-            close();
-            this.client.destroy().then(()=>{
-                process.exit(exit);
-            });
-        });
+        await msg.say('OOPS i drop my soap.')
+        await close();
+        await this.client.destroy();
+        process.exit(exit);
     }
 };

@@ -5,6 +5,8 @@ const sqlite = require('sqlite');
 const path = require('path');
 const reddit = require('./commands/reddit');
 
+require('./web/server');
+
 const client = new CommandoClient({
     commandPrefix: prefix,
     owner: owners,
@@ -21,7 +23,8 @@ client.registry
         ['bot', 'Bot commands'],
         ['reddit', 'Reddits'],
         ['file', 'File download'],
-        ['utility','Utility functions']
+        ['utility','Utility functions'],
+        ['music', 'Music']
     ])
     .registerCommands(reddit())
     .registerDefaultGroups()

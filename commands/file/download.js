@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const { download } = require('../../file');
+const { download } = require('../../file/proxy');
 const { domain, port } = require('../../config.json');
 
 module.exports = class Download extends Command {
