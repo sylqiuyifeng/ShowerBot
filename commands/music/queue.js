@@ -26,6 +26,7 @@ module.exports = class Queue extends Command {
             embed.setColor('GOLD');
             embed.setTitle('Playlist');
             embed.setDescription(player.playlist.map((v, i) => i === player.index ? `**${v}**` : v).join('\n'));
+            embed.setFooter(`${player.index}/${player.playlist.length}`)
             return msg.embed(embed);
         } catch (e) {
             msg.say(`Error: ${e}`);
