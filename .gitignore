@@ -73,8 +73,8 @@ config.json
 test.js
 
 #data
-downloads
-music
+downloads/*
+music/*
 file.db
 settings.sqlite3
 hangman.sqlite3

@@ -1,5 +1,9 @@
-const { Command } = require('discord.js-commando');
-const { remove } = require('../../file/proxy');
+const {
+    Command
+} = require('discord.js-commando');
+const {
+    remove
+} = require('../../file/proxy');
 
 module.exports = class Delete extends Command {
     constructor(client) {

@@ -1,21 +1,23 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="/icon.ico">
 
-        <title>ShowerBot-Playlist</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon.ico">
 
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-        <link href="https://cdn.bootcss.com/tether/1.4.4/css/tether-theme-arrows-dark.min.css" rel="stylesheet">
+    <title>ShowerBot-Playlist</title>
 
-        <!-- Custom styles for this template -->
-        <link href="/css/cover.css" rel="stylesheet">
-        <style>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+        crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/tether/1.4.4/css/tether-theme-arrows-dark.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/cover.css" rel="stylesheet">
+    <style>
         .custom-control {
             -moz-user-select: none;
             -webkit-user-select: none;
@@ -26,60 +28,63 @@
             margin-top: 0.5em;
             margin-bottom: 0.5em;
         }
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body class="text-center">
+<body class="text-center">
 
-        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">ShowerBot</h3>
-                    <nav class="nav nav-masthead justify-content-center">
-                        <a class="nav-link" href="/">Home</a>
-                        <a class="nav-link active" href="/player/">Music</a>
-                        <a class="nav-link" href="/player/playlist.html">Playlist</a>
-                    </nav>
-                </div>
-            </header>
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">ShowerBot</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/player/">Music</a>
+                    <a class="nav-link active" href="/player/playlist.html">Playlist</a>
+                </nav>
+            </div>
+        </header>
 
-            <main role="main" class="inner cover">
-                <h1 class="cover-heading">Playlist</h1>
-                <div class="container text-left">
-                    <div id="playlists"></div>
-                    <button type="button" class="btn btn-primary" id="addPlaylist" onclick="addPlaylist()">Add playlist</button>
-                </div>
-                <div class="container text-left">
-                    <div id="songs"></div>
-                    <button type="button" class="btn btn-primary disabled" id="update" onclick="setPlaylist()">update playlist</button>
-                </div>
-            </main>
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">Playlist</h1>
+            <div class="container text-left">
+                <div id="playlists"></div>
+                <button type="button" class="btn btn-primary" id="addPlaylist" onclick="addPlaylist()">Add playlist</button>
+            </div>
+            <div class="container text-left">
+                <div id="songs"></div>
+                <button type="button" class="btn btn-primary disabled" id="update" onclick="setPlaylist()">update playlist</button>
+            </div>
+        </main>
 
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>ShowerBot is watching you.</p>
-                </div>
-            </footer>
-        </div>
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>ShowerBot is watching you.</p>
+            </div>
+        </footer>
+    </div>
 
 
-        <!-- Bootstrap core JavaScript
+    <!-- Bootstrap core JavaScript
         ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
-        <script src="https://cdn.bootcss.com/tether/1.4.4/js/tether.min.js"></script>
-        <script src="/js/bootstrap-material-design.min.js"></script>
-        <script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/tether/1.4.4/js/tether.min.js"></script>
+    <script src="/js/bootstrap-material-design.min.js"></script>
+    <script>
         var playlists = [];
         var songs = [];
         var current = undefined;
+
         function makeCheckbox(multiple, type, id, value) {
-            var t = multiple?'checkbox':'radio';
+            var t = multiple ? 'checkbox' : 'radio';
             var id = type + '_' + id;
-            return '<div class="custom-control custom-' + t + '"><input type="' + t + 
-                '" value="" class="custom-control-input" id="' + id + '"><label class="custom-control-label" for="' + id + '">' + value + '</label></div>';
+            return '<div class="custom-control custom-' + t + '"><input type="' + t +
+                '" value="" class="custom-control-input" id="' + id + '"><label class="custom-control-label" for="' +
+                id + '">' + value + '</label></div>';
         }
+
         function addPlaylist() {
             var name = prompt('Name of the playlist');
             $.post('./playlist/add/' + encodeURIComponent(name), function (data) {
@@ -104,7 +109,7 @@
                     for (var i = 0; i < playlists.length; i++) {
                         var element = $(makeCheckbox(false, 'playlist', playlists[i].id, playlists[i].name));
                         var id = playlists[i].id;
-                        element.on('change', function (){
+                        element.on('change', function () {
                             current = id;
                             getPlaylist(id);
                         });
@@ -177,10 +182,11 @@
             })
         }
 
-        $(function() {
+        $(function () {
             updatePlaylist();
             updateSongs();
         })
-        </script>
-    </body>
+    </script>
+</body>
+
 </html>

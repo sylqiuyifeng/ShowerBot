@@ -1,6 +1,14 @@
-const { CommandoClient , SQLiteProvider } = require('discord.js-commando');
-const { token, owners } = require('./config.json')
-const { prefix } = require('./setting.json');
+const {
+    CommandoClient,
+    SQLiteProvider
+} = require('discord.js-commando');
+const {
+    token,
+    owners
+} = require('./config.json')
+const {
+    prefix
+} = require('./setting.json');
 const sqlite = require('sqlite');
 const path = require('path');
 const reddit = require('./commands/reddit');
@@ -23,7 +31,7 @@ client.registry
         ['bot', 'Bot commands'],
         ['reddit', 'Reddits'],
         ['file', 'File download'],
-        ['utility','Utility functions'],
+        ['utility', 'Utility functions'],
         ['music', 'Music']
     ])
     .registerCommands(reddit())

@@ -1,5 +1,9 @@
-const { Command } = require('discord.js-commando');
-const { RichEmbed } = require('discord.js');
+const {
+    Command
+} = require('discord.js-commando');
+const {
+    RichEmbed
+} = require('discord.js');
 
 module.exports = class Choose extends Command {
     constructor(client) {
@@ -15,7 +19,7 @@ module.exports = class Choose extends Command {
 
     run(msg, args) {
         const embed = new RichEmbed()
-            .addField(':slot_machine:',args[Math.floor(Math.random()*args.length)])
+            .addField(':slot_machine:', args[Math.floor(Math.random() * args.length)])
             .setColor('RANDOM')
         return msg.embed(embed)
     }

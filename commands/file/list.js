@@ -1,7 +1,16 @@
-const { Command } = require('discord.js-commando');
-const { list } = require('../../file/proxy');
-const { domain, port } = require('../../config.json');
-const { RichEmbed } = require('discord.js');
+const {
+    Command
+} = require('discord.js-commando');
+const {
+    list
+} = require('../../file/proxy');
+const {
+    domain,
+    port
+} = require('../../config.json');
+const {
+    RichEmbed
+} = require('discord.js');
 
 module.exports = class List extends Command {
     constructor(client) {
@@ -18,13 +27,13 @@ module.exports = class List extends Command {
     async run(msg) {
         try {
             const result = await list();
-            const length = list?list[0][0].toString().length:0;
+            const length = list ? list[0][0].toString().length : 0;
             const embed = new RichEmbed({
                 title: 'List of files',
-                description: result.map(v=>{
+                description: result.map(v => {
                     const width = v[0].toString().length;
                     return `${v[0]}${' '.repeat(length-width)} => [${v[1]}](http://${domain}:${port}/proxy/${v[0]})`;
-                }).join('\n')||'No file'
+                }).join('\n') || 'No file'
             });
             msg.embed(embed);
         } catch (e) {
