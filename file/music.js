@@ -7,11 +7,14 @@ const {
 db.run('CREATE TABLE IF NOT EXISTS playlist (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING UNIQUE);');
 db.run('CREATE TABLE IF NOT EXISTS songs (id INTEGER, name STRING, FOREIGN KEY (id) REFERENCES playlist(id));');
 
-fs.mkdirSync(path.join(__dirname, '../', 'music'));
+const p = path.join(__dirname, '../', 'music');
+if (!fs.existsSync(p)) {
+    fs.mkdirSync(p);
+}
 
 module.exports.upload = async function (file, name) {
     return new Promise((resolve, reject) => {
-        file.pipe(fs.createWriteStream(path.join(__dirname, '../', 'music', name)))
+        file.pipe(fs.createWriteStream(path.join(p, name)))
             .on('error', (e) => reject(e))
             .on('finish', () => resolve());
     })
@@ -19,7 +22,7 @@ module.exports.upload = async function (file, name) {
 
 module.exports.listFiles = function () {
     return new Promise((res, rej) => {
-        fs.readdir(path.join(__dirname, '../', 'music'), (err, files) => err ? rej(err) : res(files));
+        fs.readdir(p, (err, files) => err ? rej(err) : res(files));
     })
 }
 

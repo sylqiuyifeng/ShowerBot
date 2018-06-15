@@ -18,7 +18,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/cover.css" rel="stylesheet">
     <style>
-        .custom-control {
+        label.custom-control {
             -moz-user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
@@ -48,12 +48,13 @@
         <main role="main" class="inner cover">
             <h1 class="cover-heading">Playlist</h1>
             <div class="container text-left">
-                <div id="playlists"></div>
+                <div id="playlists" class="m-3"></div>
                 <button type="button" class="btn btn-primary" id="addPlaylist" onclick="addPlaylist()">Add playlist</button>
             </div>
             <div class="container text-left">
-                <div id="songs"></div>
-                <button type="button" class="btn btn-primary disabled" id="update" onclick="setPlaylist()">update playlist</button>
+                <div id="songs" class="m-3"></div>
+                <div class="row justify-content-center"><button type="button" class="btn btn-secondary" id="all" onclick="complement()">Complement</button></div>
+                <div class="row justify-content-center"><button type="button" class="btn btn-primary d-none" id="update" onclick="setPlaylist()">Update Selected Playlist</button></div>
             </div>
         </main>
 
@@ -141,12 +142,12 @@
         }
 
         function getPlaylist(id) {
-            $('#update').removeClass('disabled');
             $.getJSON('./playlist/' + id, function (data) {
                 if (data.success) {
                     for (var i = 0; i < songs.length; i++) {
                         $('#song_' + i).prop('checked', data.value.indexOf(songs[i]) > -1);
                     }
+                    $('#update').removeClass('d-none');
                 } else {
                     alert('Server error!');
                     console.log('Error loading playlists');
@@ -180,6 +181,12 @@
                     console.log(data.error);
                 }
             })
+        }
+
+        function complement() {
+            for (var i = 0; i < songs.length; i++) {
+                $('#song_' + i).prop('checked', !$('#song_' + i).prop('checked'));
+            }
         }
 
         $(function () {
