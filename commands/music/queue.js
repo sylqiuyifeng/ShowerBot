@@ -26,7 +26,7 @@ module.exports = class Queue extends Command {
             embed.setColor('GOLD');
             embed.setTitle('Playlist');
 
-            if (!player.index) {
+            if (player.state === 0) {
                 embed.setDescription('The void,the null,the undefined and your loneliness')
             } else {
                 embed.setDescription(player.playlist.map((v, i) => i === player.index ? `**${v}**` : v).join('\n'));
