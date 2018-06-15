@@ -7,6 +7,8 @@ const {
 db.run('CREATE TABLE IF NOT EXISTS playlist (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING UNIQUE);');
 db.run('CREATE TABLE IF NOT EXISTS songs (id INTEGER, name STRING, FOREIGN KEY (id) REFERENCES playlist(id));');
 
+fs.mkdirSync(path.join(__dirname, '../', 'music'));
+
 module.exports.upload = async function (file, name) {
     return new Promise((resolve, reject) => {
         file.pipe(fs.createWriteStream(path.join(__dirname, '../', 'music', name)))
