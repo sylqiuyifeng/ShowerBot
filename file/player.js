@@ -31,13 +31,20 @@ class Player {
     playSong(name, p) {
         fs.access(p, (err) => {
             if (err) {
+                console.log(err);
                 this.channel.send(`Error: ${name} does not exist`);
                 return this.exit();
             }
             this.dispatcher = this.connection.playFile(p);
-            this.dispatcher.on('end', () => {
+            this.dispatcher.once('end', (reason) => {
+                if (reason !== 'skip' && reason !== 'stream') {
+                    return;
+                }
                 if (this.connection.channel.members.array().length === 1) {
-                    return this.exit();
+                    if (this.state !== 0) {
+                        this.exit()
+                    }
+                    return;
                 }
                 if (this.state === 1) {
                     this.playNext();
@@ -58,21 +65,19 @@ class Player {
         const p = path.join(__dirname, '../music', this.np);
         this.playSong(this.np, p);
     }
-    play(playlist, connection, channel) {
+    async play(playlist, voiceChannel, channel) {
         if (this.state !== 0) {
-            this.exit();
+            this.dispatcher.end('stop');
         }
         if (playlist.length === 0) {
             channel.send('Error: Empty playlist');
             return;
         }
-        connection.on('disconnect', ()=>{
-            this.state = 0;
-            this.np = 0;
-            this.dispatcher.end();
-        })
+
         this.playlist = shuffle(playlist);
-        this.connection = connection;
+        if (!this.connection || this.connection.channel.id !== voiceChannel.id) {
+            this.connection = await voiceChannel.join();
+        }
         this.channel = channel;
         this.index = 0;
         this.np = this.playlist[this.index];
@@ -97,7 +102,7 @@ class Player {
         if (this.state !== 1) {
             throw new Error('There is no songs playing');
         }
-        this.dispatcher.end();
+        this.dispatcher.end('skip');
     }
     resume() {
         if (this.state !== 2) {
@@ -110,6 +115,9 @@ class Player {
         if (this.state === 0) {
             throw new Error('The player is not connected');
         }
+        this.state = 0;
+        this.np = 0;
+        this.dispatcher.end('stop');
         this.connection.disconnect();
     }
 }
@@ -122,14 +130,6 @@ module.exports.getPlayer = function (id) {
     }
     return map.get(id);
 };
-
-module.exports.resetPlayer = function (id) {
-    if (map.has(id)) {
-        map.get(id).exit();
-        map.delete(id);
-    }
-    return getPlayer(id);
-}
 
 module.exports.getPlayers = function () {
     return map.values();

@@ -6,7 +6,7 @@ const {
     getPlaylist
 } = require('../../file/music');
 const {
-    resetPlayer
+    getPlayer
 } = require('../../file/player');
 const MusicCommand = require('../music_command');
 
@@ -40,11 +40,8 @@ module.exports = class Play extends MusicCommand {
         }
         try {
             const id = parseInt(name) || parseInt((await nameToId(name)).id);
-            const [result, channel] = await Promise.all([
-                getPlaylist(id),
-                msg.member.voiceChannel.join()
-            ])
-            resetPlayer(msg.guild.id).play(result, channel, msg.channel);
+            const result = await getPlaylist(id);
+            getPlayer(msg.guild.id).play(result, msg.member.voiceChannel, msg.channel);
         } catch (e) {
             msg.say(`Error: ${e}`);
         }
