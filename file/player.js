@@ -47,9 +47,12 @@ class Player {
     playNext() {
         this.index++;
         if (this.index === this.playlist.length) {
-            this.channel.send('Repeated');
-            this.index = 0;
-            this.playlist = shuffle(this.playlist);
+            this.channel.send('Ended');
+            console.log(this.playlist.length);
+            console.log(this.playlist);
+            console.log(this.index);
+            this.exit();
+            return;
         }
         this.np = this.playlist[this.index];
         const p = path.join(__dirname, '../music', this.np);
