@@ -39,9 +39,11 @@ module.exports = class Play extends MusicCommand {
             }
         }
         try {
-            const id = parseInt(name) || parseInt((await nameToId(name)).id);
+            console.log(JSON.parse(name));
+            const id = parseInt(name) || parseInt((await nameToId(name.trim())).id);
             const result = await getPlaylist(id);
             getPlayer(msg.guild.id).play(result, msg.member.voiceChannel, msg.channel);
+            msg.say('Now playing...');
         } catch (e) {
             msg.say(`Error: ${e}`);
         }
