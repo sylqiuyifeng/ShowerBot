@@ -4,9 +4,8 @@ const {
 const {
     getPlayer
 } = require('../../file/player');
-const MusicCommand = require('../music_command');
 
-module.exports = class NowPlaying extends MusicCommand {
+module.exports = class NowPlaying extends Command {
     constructor(client) {
         super(client, {
             name: 'nowplaying',

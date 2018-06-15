@@ -78,11 +78,11 @@
         var songs = [];
         var current = undefined;
 
-        function makeCheckbox(multiple, type, id, value) {
+        function makeCheckbox(multiple, group, type, id, value) {
             var t = multiple ? 'checkbox' : 'radio';
             var id = type + '_' + id;
             return '<div class="custom-control custom-' + t + '"><input type="' + t +
-                '" value="" class="custom-control-input" id="' + id + '"><label class="custom-control-label" for="' +
+                '" value="" name="'+ group +'" class="custom-control-input" id="' + id + '"><label class="custom-control-label" for="' +
                 id + '">' + value + '</label></div>';
         }
 
@@ -108,7 +108,7 @@
                     var list = $('#playlists');
                     list.empty();
                     for (var i = 0; i < playlists.length; i++) {
-                        var element = $(makeCheckbox(false, 'playlist', playlists[i].id, playlists[i].name));
+                        var element = $(makeCheckbox(false, 'playlist', 'playlist', playlists[i].id, playlists[i].name));
                         var id = playlists[i].id;
                         element.on('change', function () {
                             current = id;
@@ -131,7 +131,7 @@
                     var list = $('#songs');
                     list.empty();
                     for (var i = 0; i < songs.length; i++) {
-                        list.append(makeCheckbox(true, 'song', i, songs[i]));
+                        list.append(makeCheckbox(true, 'song', 'song', i, songs[i]));
                     }
                 } else {
                     alert('Server error!');
