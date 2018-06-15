@@ -39,13 +39,18 @@ class Player {
                 if (this.connection.channel.members.array().length === 1) {
                     return this.exit();
                 }
-                this.playNext();
+                if (this.state === 1) {
+                    this.playNext();
+                }
             });
             this.state = 1;
         })
     }
     playNext() {
         this.index++;
+        if (this.playlist.length === 0) {
+            return;
+        }
         if (this.index >= this.playlist.length) {
             this.index = 0;
             this.playlist = shuffle(this.playlist);
@@ -62,6 +67,11 @@ class Player {
             channel.send('Error: Empty playlist');
             return;
         }
+        connection.on('disconnect', ()=>{
+            this.state = 0;
+            this.np = 0;
+            this.dispatcher.end();
+        })
         this.playlist = shuffle(playlist);
         this.connection = connection;
         this.channel = channel;
@@ -101,7 +111,6 @@ class Player {
             throw new Error('The player is not connected');
         }
         this.connection.disconnect();
-        this.state = 0;
     }
 }
 
