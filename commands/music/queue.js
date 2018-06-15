@@ -30,7 +30,7 @@ module.exports = class Queue extends Command {
                 embed.setDescription('The void,the null,the undefined and your loneliness')
             } else {
                 embed.setDescription(player.playlist.map((v, i) => i === player.index ? `**${v}**` : v).join('\n'));
-                embed.setFooter(`${player.index}/${player.playlist.length}`)
+                embed.setFooter(`${player.index + 1}/${player.playlist.length}`)
             }
             return msg.embed(embed);
         } catch (e) {
