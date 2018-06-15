@@ -18,7 +18,7 @@ module.exports = class Playlist extends Command {
     async run(msg) {
         try {
             const result = await listPlaylists();
-            const length = result?result[0].id.toString().length:0;
+            const length = result.length>0?(result[0].id.toString().length):0;
             const embed = new RichEmbed({
                 title: 'Playlists',
                 url: `http://${domain}:${port}/player/playlist.html`,
@@ -29,6 +29,7 @@ module.exports = class Playlist extends Command {
             });
             msg.embed(embed);
         } catch (e) {
+            console.log(e);
             msg.say(`Error: ${e}`);
         }
     }

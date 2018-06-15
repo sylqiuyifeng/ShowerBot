@@ -9,6 +9,10 @@ const exec = (cmd) => new Promise((resolve, reject) => {
 async function run() {
     while (true) {
         await exec('git pull');
+        if (await exec('npm install') !== 0) {
+            console.log('Unable to install dependencies');
+            break;
+        }
         if (await exec('npm run main') !== 0) {
             console.log('Bot shutdown');
             break;

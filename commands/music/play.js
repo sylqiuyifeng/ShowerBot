@@ -30,15 +30,22 @@ module.exports = class Play extends MusicCommand {
     async run(msg, {
         name
     }) {
+        async function nameToId(name) {
+            const result = (await listPlaylists()).find(v => v.name === name);
+            if (result) {
+                return result;
+            } else {
+                throw new Error('Unknown playlist');
+            }
+        }
         try {
-            const id = parseInt(name) || parseInt((await listPlaylists()).find(v => v.name === name).id);
+            const id = parseInt(name) || parseInt((await nameToId(name)).id);
             const [result, channel] = await Promise.all([
                 getPlaylist(id),
                 msg.member.voiceChannel.join()
             ])
             getPlayer(msg.guild.id).play(result, channel, msg.channel);
         } catch (e) {
-            console.log(e);
             msg.say(`Error: ${e}`);
         }
     }
