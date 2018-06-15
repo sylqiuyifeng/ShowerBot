@@ -43,7 +43,6 @@ class Player {
                     this.playNext();
                 }
             });
-            this.state = 1;
         })
     }
     playNext() {
@@ -78,6 +77,7 @@ class Player {
         this.index = 0;
         this.np = this.playlist[this.index];
         const p = path.join(__dirname, '../music', this.np);
+        this.state = 1;
         this.playSong(this.np, p);
     }
     getNp() {
@@ -122,6 +122,14 @@ module.exports.getPlayer = function (id) {
     }
     return map.get(id);
 };
+
+module.exports.resetPlayer = function (id) {
+    if (map.has(id)) {
+        map.get(id).exit();
+        map.delete(id);
+    }
+    return getPlayer(id);
+}
 
 module.exports.getPlayers = function () {
     return map.values();

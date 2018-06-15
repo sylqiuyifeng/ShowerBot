@@ -6,7 +6,7 @@ const {
     getPlaylist
 } = require('../../file/music');
 const {
-    getPlayer
+    resetPlayer
 } = require('../../file/player');
 const MusicCommand = require('../music_command');
 
@@ -44,7 +44,7 @@ module.exports = class Play extends MusicCommand {
                 getPlaylist(id),
                 msg.member.voiceChannel.join()
             ])
-            getPlayer(msg.guild.id).play(result, channel, msg.channel);
+            resetPlayer(msg.guild.id).play(result, channel, msg.channel);
         } catch (e) {
             msg.say(`Error: ${e}`);
         }
