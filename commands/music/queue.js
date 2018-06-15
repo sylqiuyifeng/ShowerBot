@@ -27,7 +27,7 @@ module.exports = class Queue extends Command {
             //add field
             let playing = [];
             player.playlist.map((v, i) => i === player.index ? embed.addField("Now playing",v) : playing.push(v));
-            embed.addField('In queue',playing.join('/n'));
+            embed.addField('In queue',playing.join('\n'));
             return msg.embed(embed);
         } catch (e) {
             msg.say(`Error: ${e}`);
