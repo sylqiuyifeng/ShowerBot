@@ -24,10 +24,8 @@ module.exports = class Queue extends Command {
             //create embed
             let embed = new RichEmbed();
             embed.setColor('GOLD');
-            //add field
-            let playing = [];
-            player.playlist.map((v, i) => i === player.index ? embed.addField("Now playing",v) : playing.push(v));
-            embed.addField('In queue',playing.join('\n'));
+            embed.setTitle('Playlist');
+            embed.setDescription(player.playlist.map((v, i) => i === player.index ? `**${v}**` : v).join('\n'));
             return msg.embed(embed);
         } catch (e) {
             msg.say(`Error: ${e}`);
