@@ -5,6 +5,8 @@ const {
     db
 } = require('./db');
 const pattern = /filename="(.+)"/;
+const http = require('http');
+const https = require('https');
 
 db.run('CREATE TABLE IF NOT EXISTS file (id INTEGER PRIMARY KEY AUTOINCREMENT, type STRING, disposition STRING);');
 
