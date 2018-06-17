@@ -110,10 +110,10 @@
                     for (var i = 0; i < playlists.length; i++) {
                         var element = $(makeCheckbox(false, 'playlist', 'playlist', playlists[i].id, playlists[i].name));
                         var id = playlists[i].id;
-                        element.on('change', function () {
+                        element.on('change', function(id){return function () {
                             current = id;
                             getPlaylist(id);
-                        });
+                        }}(id));
                         list.append(element);
                     }
                 } else {
