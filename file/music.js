@@ -38,13 +38,13 @@ module.exports.getPlaylist = function (id) {
             rej('Invalid id');
         }
         id = Number.parseInt(id);
-        db.all('SELECT name FROM songs WHERE id = ?;', id, (err, rows) => err ? rej(err) : res(rows.map(v => v.name)));
+        db.all('SELECT name FROM songs WHERE id = $id;', {$id: id}, (err, rows) => err ? rej(err) : res(rows.map(v => v.name)));
     })
 }
 
 module.exports.addPlaylist = function (name) {
     return new Promise((res, rej) => {
-        db.run('INSERT INTO playlist (name) VALUES (?);', name, (result, err) => {
+        db.run('INSERT INTO playlist (name) VALUES ($name);', {$name: name}, (result, err) => {
             if (err) {
                 console.log(err);
                 rej(err);
@@ -61,7 +61,7 @@ module.exports.setPlaylist = function (id, names) {
             rej('Invalid id');
         }
         id = Number.parseInt(id);
-        db.run('DELETE FROM songs WHERE id = ?;', id, (result, err) => {
+        db.run('DELETE FROM songs WHERE id = $id;', {$id: id}, (result, err) => {
             if (err) {
                 rej(err);
             }
