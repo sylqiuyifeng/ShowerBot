@@ -26,7 +26,8 @@ module.exports = class COD extends Command {
 
     run(msg, args) {
         let embed = new RichEmbed();
-        embed.setTitle(':sweat_drops::fork_knife_plate:')
+        embed.setTitle(':sweat_drops::fork_knife_plate:');
+        embed.setColor('47563E');
         switch (this.state) {
             case 0:
                 embed.setDescription('SYL starts playing - Call of Dishes:SoapWarfare');
@@ -36,7 +37,7 @@ module.exports = class COD extends Command {
                 return msg.delete();
 
             case 1:
-                embed.setDescription(`SYL finished playing - Call of Dishes:SoapWarfare\nUsed time:${~~(new Date() - this.startTime)/1000} seconds`);
+                embed.setDescription(`SYL finished playing - Call of Dishes:SoapWarfare\nUsed time:${~~(new Date() - this.startTime) / 1000} seconds`);
                 this.state = 0;
                 msg.embed(embed);
                 return msg.delete();
