@@ -8,12 +8,11 @@ const {
 module.exports = class COD extends Command {
     constructor(client) {
         super(client, {
-            name: 'choose',
+            name: 'cod',
             group: 'utility',
-            memberName: 'choose',
-            description: 'Choose one from given choices',
-            examples: ['choose A B C'],
-            argsType: 'multiple'
+            memberName: 'cod',
+            description: 'Call of Dishes',
+            examples: ['cod']
         });
 
         //0 for not start,1 for started
