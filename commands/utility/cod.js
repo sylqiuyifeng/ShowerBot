@@ -21,7 +21,7 @@ module.exports = class COD extends Command {
     }
 
     hasPermission(msg, ownerOverride = false) {
-        return msg.author.id === 254077247940460544;
+        return (msg.author.id === '254077247940460544'?true:'You are not SYL, you cannot wash dishes');
     }
 
     run(msg, args) {
