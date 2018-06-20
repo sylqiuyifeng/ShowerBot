@@ -14,6 +14,10 @@ if (!fs.existsSync(settings.download)) {
     fs.mkdirSync(settings.download);
 }
 
+function getPath(id){
+    return path.join(__dirname,setting.download,id);
+}
+
 module.exports.get = function (id, res) {
     if (!/^\d+$/.exec(id)) {
         res.send('Illegal request');
